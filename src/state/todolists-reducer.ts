@@ -23,16 +23,9 @@ export const todolistsReducer = (state: Array<TodolistsType>, action: ActionType
             ]
 
         }
-        // function addTodolist(title: string) {
-        //     let newTodolistId = v1();
-        //     let newTodolist: TodolistsType = {id: newTodolistId, title, filter: 'all'};
-        //     setTodolists([newTodolist, ...todolists]);
-        //     setTasks({
-        //         ...tasks,
-        //         [newTodolistId]: []
-        //     });
-        // }
-
+        case 'CHANGE-TODOLIST-TITLE': {
+            return state.map(td => td.id === action.id ? {...td, title: action.title} : td)
+        }
         default:
             throw new Error('I don\'t understand this type');
     }
