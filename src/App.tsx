@@ -22,7 +22,7 @@ export type TodolistsType = {
 
 }
 
-type TaskStateType = {
+export type TaskStateType = {
     [key: string]: Array<TasksType>
 }
 
