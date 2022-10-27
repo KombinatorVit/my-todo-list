@@ -10,7 +10,7 @@ export type TodoListPropsType = {
     title: string
     tasks: Array<TasksType>
     removeTask: (id: string, todolistId: string) => void
-    changeFilter: (value: FilterValuesType, todolistID: string) => void
+    changeFilter: (todolistID: string, value: FilterValuesType) => void
     addTask: (title: string, todolistId: string) => void
     changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
     filter: FilterValuesType
@@ -31,15 +31,15 @@ export function TodoList(props: TodoListPropsType) {
     }
 
     function onAllClickHandler() {
-        props.changeFilter('all', props.id);
+        props.changeFilter(props.id,'all');
     }
 
     function onActiveClickHandler() {
-        props.changeFilter('active', props.id);
+        props.changeFilter( props.id,'active');
     }
 
     function onCompletedClickHandler() {
-        props.changeFilter('completed', props.id);
+        props.changeFilter(props.id,'completed');
     }
 
     function changeTodolistTitle(newTitle: string) {
@@ -70,12 +70,11 @@ export function TodoList(props: TodoListPropsType) {
                     const onChangeTitleHandler = (newValue: string) => {
                         props.changeTaskTitle(t.id, newValue, props.id,);
                     };
-
                     return (
                         <div key={t.id} className={t.isDone ? 'is-done' : ''}>
                             <Checkbox color={'primary'}
-                                   checked={t.isDone}
-                                   onChange={onChangeStatusHandler}
+                                      checked={t.isDone}
+                                      onChange={onChangeStatusHandler}
                             />
                             <EditableSpan
                                 title={t.title}
@@ -83,7 +82,7 @@ export function TodoList(props: TodoListPropsType) {
                             />
                             <IconButton
                                 onClick={removeTaskHandler}>
-<Delete />
+                                <Delete/>
                             </IconButton>
                         </div>
 
@@ -94,7 +93,8 @@ export function TodoList(props: TodoListPropsType) {
 
             </div>
             <div>
-                <Button color={'inherit'}  variant={props.filter === 'all' ? 'outlined' : 'text'} onClick={onAllClickHandler}>All
+                <Button color={'inherit'} variant={props.filter === 'all' ? 'outlined' : 'text'}
+                        onClick={onAllClickHandler}>All
                 </Button>
                 <Button color={'primary'} variant={props.filter === 'active' ? 'outlined' : 'text'}
                         onClick={onActiveClickHandler}>Active
