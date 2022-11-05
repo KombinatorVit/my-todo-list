@@ -1,7 +1,6 @@
-import React, {useReducer} from 'react';
+import React, {useCallback, useReducer} from 'react';
 import './App.css';
 import {TodoList} from './TodoList';
-import {v1} from 'uuid';
 import AddItemForm from './AddItemForm';
 
 import ButtonAppBar from './ButtonAppBar';
@@ -11,9 +10,8 @@ import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     removeTodolistAC,
-    todolistsReducer
 } from './state/todolists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/tasks-reducer';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 
@@ -36,62 +34,58 @@ export type TasksStateType = {
     [key: string]: Array<TasksType>
 }
 
-function AppWithRedux () {
+function AppWithRedux() {
 
 
+    const dispatch = useDispatch();
+    const todolists = useSelector<AppRootStateType, TodolistsType[]>((state) => state.todolists);
+    const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks);
 
 
+    const addTodolist = useCallback((title: string) => {
+        const action = addTodolistAC(title);
+        dispatch(action);
+    }, [dispatch]);
 
-    const dispatch = useDispatch()
-const todolists = useSelector<AppRootStateType,TodolistsType[]>((state)=>state.todolists)
-    const tasks = useSelector<AppRootStateType,TasksStateType>((state)=>state.tasks)
-
-
-
-    function addTodolist(title: string) {
-        const action = addTodolistAC(title)
-        dispatch(action)
-    }
-
-    function changeFilter(todolistID: string, value: FilterValuesType) {
+    const changeFilter = useCallback((todolistID: string, value: FilterValuesType) => {
 
 
         dispatch(changeTodolistFilterAC(todolistID, value));
 
 
-    }
+    },[dispatch])
 
-    function removeTask(id: string, todolistId: string) {
+    const removeTask = useCallback((id: string, todolistId: string) => {
 
         const action = removeTaskAC(id, todolistId);
         dispatch(action);
 
-    }
+    }, [dispatch]);
 
-    function addTask(title: string, todolistId: string) {
+    const addTask = useCallback((title: string, todolistId: string) => {
         const action = addTaskAC(title, todolistId);
         dispatch(action);
 
 
-    }
+    }, [dispatch]);
 
-    function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
+    const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
         dispatch(changeTaskTitleAC(id, newTitle, todolistId));
-    }
+    }, [dispatch]);
 
-    function changeTaskStatus(id: string, isDone: boolean, todolistId: string) {
+    const changeTaskStatus = useCallback((id: string, isDone: boolean, todolistId: string) => {
         dispatch(changeTaskStatusAC(id, isDone, todolistId));
-    }
+    }, [dispatch]);
 
 
-    function removeTodolist(id: string) {
+    const removeTodolist = useCallback((id: string) => {
         dispatch(removeTodolistAC(id));
-    }
+    }, [dispatch]);
 
 
-    let changeTodolistTitle = (todolistId: string, newTitle: string) => {
+    let changeTodolistTitle = useCallback((todolistId: string, newTitle: string) => {
         dispatch(changeTodolistTitleAC(todolistId, newTitle));
-    };
+    }, [dispatch]);
 
     return (
         <div className="App">
@@ -102,12 +96,7 @@ const todolists = useSelector<AppRootStateType,TodolistsType[]>((state)=>state.t
 
                     let taskForTodolist = tasks[t.id];
 
-                    if (t.filter === 'active') {
-                        taskForTodolist = tasks[t.id].filter(t => !t.isDone);
-                    }
-                    if (t.filter === 'completed') {
-                        taskForTodolist = tasks[t.id].filter(t => t.isDone);
-                    }
+
 
                     return (<Grid item>
                             <Paper style={{padding: '10px'}}>
@@ -138,6 +127,6 @@ const todolists = useSelector<AppRootStateType,TodolistsType[]>((state)=>state.t
     );
 }
 
-export default AppWithRedux ;
+export default AppWithRedux;
 
 
