@@ -53,7 +53,7 @@ function AppWithRedux() {
         dispatch(changeTodolistFilterAC(todolistID, value));
 
 
-    },[dispatch])
+    }, [dispatch]);
 
     const removeTask = useCallback((id: string, todolistId: string) => {
 
@@ -95,7 +95,6 @@ function AppWithRedux() {
                 <Grid container spacing={3}>            {todolists.map(t => {
 
                     let taskForTodolist = tasks[t.id];
-
 
 
                     return (<Grid item>
