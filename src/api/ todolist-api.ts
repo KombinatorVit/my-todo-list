@@ -80,16 +80,25 @@ export const todolistAPI = {
             {title: title});
     },
     getTasks(todolistId: string) {
-        return axios.get<GetTasksResponse>(
-            `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`, settings
+        return instance.get<GetTasksResponse>(
+            `todo-lists/${todolistId}/tasks`
         );
     },
-    deleteTask(todolistId: string, taskId: string) {
-        return axios.delete<ResponseType>(
-            `https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, settings
+    deleteTask(todolistId: string, title: string) {
+        return instance.delete<ResponseType>(
+            `todo-lists/${todolistId}/tasks/${title}`
         );
     },
-    updateTask(todolistId: string, taskId: string, model:UpdateTaskModelType){
 
+
+    createTask(todolistId: string, taskTitle: string){
+        return instance.post<ResponseType<TaskType>>(
+        `todo-lists/${todolistId}/tasks/`, {title: taskTitle})},
+
+
+
+
+    updateTask(todolistId: string, taskId: string, model:UpdateTaskModelType){
+return instance.put<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 };
