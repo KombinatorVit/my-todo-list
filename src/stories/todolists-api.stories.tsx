@@ -78,7 +78,6 @@ export const DeleteTask = () => {
     const [todolistId, setTodolistId] = useState<any>('')
 
     const onButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
-        useEffect(() => {
 
             todolistAPI.deleteTask(todolistId, taskId)
                 .then((res) => {
@@ -87,7 +86,6 @@ export const DeleteTask = () => {
 
 
 
-        }, [])
     };
 
     return <div>{JSON.stringify(state)}
