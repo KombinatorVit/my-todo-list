@@ -17,7 +17,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
         case 'SET-TODOLISTS':
             return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}));
         case 'CHANGE-TODOLIST-ENTITY-STATUS':
-            return state.map(tl => tl.id === action.id ? {...tl, entityStatus: action.status} : tl)
+            return state.map(tl => tl.id === action.id ? {...tl, entityStatus: action.status} : tl);
         default:
             return state;
     }
@@ -38,7 +38,8 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => 
 } as const);
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET-TODOLISTS', todolists} as const);
 export const changeTodolistEntityStatusAC = (id: string, status: RequestStatusType) => ({
-    type: 'CHANGE-TODOLIST-ENTITY-STATUS', id, status} as const);
+    type: 'CHANGE-TODOLIST-ENTITY-STATUS', id, status
+} as const);
 // thunks
 export const fetchTodolistsTC = () => {
 
@@ -56,7 +57,7 @@ export const fetchTodolistsTC = () => {
 export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: ThunkDispatch) => {
         dispatch(setStatusAC('loading'));
-        dispatch(changeTodolistEntityStatusAC(todolistId,'loading'))
+        dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'));
 
         todolistsAPI.deleteTodolist(todolistId)
             .then((res) => {
@@ -65,6 +66,7 @@ export const removeTodolistTC = (todolistId: string) => {
                 dispatch(setStatusAC('succeeded'));
 
             });
+
     };
 };
 export const addTodolistTC = (title: string) => {
