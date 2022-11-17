@@ -44,8 +44,8 @@ export type LoginParamsType = {
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        const promise= instance.post<AxiosResponse<ResponseType<{ userId: number }>>>('auth/login',data);
-return promise
+        return instance.post<LoginParamsType,AxiosResponse<ResponseType<{  userId:number }>>>('auth/login',data);
+
     }
 }
 
